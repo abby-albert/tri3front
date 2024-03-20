@@ -27,14 +27,13 @@
             var attention = document.getElementById("attentionInput").value;
             var solutions = document.getElementById("solutionsInput").value;
 
-            fetch('/hacks/predict_probability/', {
+            fetch('/predict_probability', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
                     subject: subject,
-                    attention: attention,
                     solutionsInput: solutions
                 })
             })
