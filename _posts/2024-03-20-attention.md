@@ -4,6 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Probability Calculator</title>
+    <script>
+        function calculateProbability() {
+            var subject = document.getElementById("subjectInput").value;
+            var attention = document.getElementById("attentionInput").value;
+            var solutions = document.getElementById("solutionsInput").value;
+
+            fetch('/hacks/predict_probability/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    subject: subject,
+                    attention: attention,
+                    solutionsInput: solutions
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert("Probability of getting a score above 9.0: " + data.probability.toFixed(2) + "%");
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
 </head>
 <body>
     <h1>Probability Calculator</h1>
@@ -20,31 +46,5 @@
     <div>
         <button onclick="calculateProbability()">Calculate Probability of score above 9.0/10.0</button>
     </div>
-
-    <script>
-        function calculateProbability() {
-            var subject = document.getElementById("subjectInput").value;
-            var attention = document.getElementById("attentionInput").value;
-            var solutions = document.getElementById("solutionsInput").value;
-
-            fetch('/predict_probability', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    subject: subject,
-                    solutionsInput: solutions
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                alert("Probability of getting a score above 9.0: " + data.probability.toFixed(2) + "%");
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        }
-    </script>
 </body>
 </html>
