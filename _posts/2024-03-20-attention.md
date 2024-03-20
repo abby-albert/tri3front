@@ -19,21 +19,30 @@ Choose a number: 0 for Science, 1 for Math, 2 for History, 3 for English
     var attention = document.getElementById("attentionInput").value;
     var solutions = document.getElementById("solutionsInput").value;
     
-    // Send data to backend
-    fetch('/process_data', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ subject: subject, attention: attention, solutions: solutions })
-    })
-    .then(response => response.json())
-    .then(data => {
-      // Display probability result
-      alert("Probability of getting a score above 9.0: " + data.probability.toFixed(2) + "%");
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
-  }
-</script>
+    <!-- JavaScript code -->
+    <script>
+      function calculateProbability() {
+        var subject = document.getElementById("subjectInput").value;
+        var solutions = document.getElementById("solutionsInput").value;
+
+        fetch('/predict_probability', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            subject: subject,
+            solutions: solutions
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+          alert("Probability of getting a score above 9.0: " + data.probability.toFixed(2) + "%");
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+      }
+    </script>
+</body>
+</html>
